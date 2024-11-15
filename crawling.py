@@ -106,12 +106,15 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
 
 # 위를 통해서 아래 함수를 채워보세요.
 def GetNotices(link):
-    
+    dictionary = {
+                
+    }
     responselink = requests.get(link)
     htmllink = responselink.text 
 
     noticeslink = BeautifulSoup(htmllink, 'html.parser').select('tbody tr:not(.p-notice)')
     # 요청을 보낼 곳은 link입니다.    
+   
 
     for noticelink in noticeslink: # 이 구문은 모든 notices에 담긴 원소를 하나씩 notice에 담습니다
         elementsl = noticelink.select('td') # 각 notice의 td 요소를 가져옵니다.
@@ -130,10 +133,18 @@ def GetNotices(link):
         datel = datel.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
 
         
-    print("번호: ", numberl)
-    print("제목: ", titlel)
-    print("링크: ", linkl)
-    print("작성일: ", datel)
-    print("\n\n")
+        print("번호: ", numberl)
+        print("제목: ", titlel)
+        print("링크: ", linkl)
+        print("작성일: ", datel)
+        print("\n\n")
+        dictionary[numberl] = {
+            "title":titlel,
+            "link":linkl,
+            "date":datel
+        }
+    return dictionary
+        
 
 GetNotices(url)
+
