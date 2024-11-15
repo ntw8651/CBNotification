@@ -37,7 +37,7 @@ response = requests.get(url)
 
 # response의 text를 출력합니다. 이때, text는 HTML 코드입니다.
 #[:120]은 120글자까지만 출력하라는 의미입니다. 너무 길어서 120글자만 출력해보겠습니다.
-# print(response.text[:120]) # 주석을 해제하세요
+#print(response.text[:120]) # 주석을 해제하세요
 
 ###################################
 
@@ -52,10 +52,14 @@ html = response.text
 # select는 CSS Selector를 이용해서 원하는 요소를 "배열로" 가져옵니다
 # 즉, select('tbody tr')은 모든 tbody 하위의 tr 요소를 가져옵니다.
 
-notices = BeautifulSoup(html, 'html.parser').select('tbody tr:not(.p-notice)')
+soup = BeautifulSoup(html, 'html.parser')  #notices는 함수를 가진 구조체같은 존재(BeautifulSoup는 위에 있는html을 해석할 수 있게 설정해주는 애)
+
+notices = soup.select('tbody tr:not(.p-notice)') 
+#select는 BeautifulSoup가 설정해줘서 soup(구조체같은애)에서 사용할 수 있는 함수, notices에 tr들을 배열형식으로 다 넣어줌(select가 넣어줌)
 
 #print(notices[0]) # 주석을 해제하세요
 
+#공지사항이 tbody 휘아에 tr로 되어있음(공지사항 하나가)
 # 뒤에 붙는 :not(.p-notice)는 .p-notice가 아닌 요소를 가져오라는 의미입니다.
 # 공지사항을 잘 보면, 고정 공지사항과 일반 공지사항이 있습니다.
 # 고정 공지사항은 p-notice 클래스를 가지고 있습니다.
@@ -85,7 +89,7 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
     # 그러니 최초 한번만 위~~에서처럼 BeautifulSoup으로 감싸주면 됩니다.    
     
     
-    number = elements[0].find(class_ = 'bbs_num').string # 번호 가져오기
+    number = elements[0].find(class_ = 'bbs_num').string # 번호만(나머지는 속성) 가져오기
     
     title = elements[2].text # 제목
     title = title.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
@@ -97,13 +101,15 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
 
     
 
-    ''' 주석을 해제하세요
+    
+    """
     print("번호: ", number)
     print("제목: ", title)
     print("링크: ", link)
     print("작성일: ", date)
     print("\n\n")
-    '''
+    """
+    
 
     
 
@@ -114,11 +120,27 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
 
 # 위를 통해서 아래 함수를 채워보세요.
 def GetNotices(link):
-    # 요청을 보낼 곳은 link입니다.
-    
-    return 0
+    response=requests.get(link)
+    html=response.text
+    terminal=BeautifulSoup(html, 'html.parser')
+    tr=terminal.select('tbody tr:not(.p-notice)')
+    for t in tr:
+        td=t.select('td')
+        num=td[0].find(class_='bbs_num').string
+        tit=td[2].text
+        tit = title.replace("\n", "").replace("\t", "").strip()
+        lik = td[2].find('a')['href']
+        dat=td[5].text
+        dat = dat.replace("\n", "").replace("\t", "").strip()
+
+        print("번호: ", num)
+        print("제목: ", tit)
+        print("링크: ", lik)
+        print("작성일: ", dat)
+        print("\n\n")
 
 
 
 
+GetNotices(url)
 
