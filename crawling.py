@@ -37,7 +37,7 @@ response = requests.get(url)
 
 # response의 text를 출력합니다. 이때, text는 HTML 코드입니다.
 #[:120]은 120글자까지만 출력하라는 의미입니다. 너무 길어서 120글자만 출력해보겠습니다.
-# print(response.text[:120]) # 주석을 해제하세요
+print(response.text[:120]) # 주석을 해제하세요
 
 ###################################
 
@@ -54,7 +54,7 @@ html = response.text
 
 notices = BeautifulSoup(html, 'html.parser').select('tbody tr:not(.p-notice)')
 
-#print(notices[0]) # 주석을 해제하세요
+print(notices[0]) # 주석을 해제하세요
 
 # 뒤에 붙는 :not(.p-notice)는 .p-notice가 아닌 요소를 가져오라는 의미입니다.
 # 공지사항을 잘 보면, 고정 공지사항과 일반 공지사항이 있습니다.
@@ -83,7 +83,7 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
     elements = notice.select('td') # 각 notice의 td 요소를 가져옵니다.
     # 참고로, 이미 notice는 bs4 객체이므로, select를 사용할 수 있습니다.
     # 그러니 최초 한번만 위~~에서처럼 BeautifulSoup으로 감싸주면 됩니다.    
-    
+
     
     number = elements[0].find(class_ = 'bbs_num').string # 번호 가져오기
     
@@ -96,29 +96,42 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
     date = date.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
 
     
-
-    ''' 주석을 해제하세요
     print("번호: ", number)
     print("제목: ", title)
     print("링크: ", link)
     print("작성일: ", date)
     print("\n\n")
-    '''
-
-    
-
-
-
-
 
 
 # 위를 통해서 아래 함수를 채워보세요.
 def GetNotices(link):
-    # 요청을 보낼 곳은 link입니다.
     
-    return 0
+    responselink = requests.get(link)
+    htmllink = responselink.txt 
 
+    noticeslink = BeautifulSoup(htmllink, 'html.parser').select('tbody tr:not(.p-notice)')
+    # 요청을 보낼 곳은 link입니다.    
 
+    for noticelink in noticeslink: # 이 구문은 모든 notices에 담긴 원소를 하나씩 notice에 담습니다
+        elementsl = noticelink.select('td') # 각 notice의 td 요소를 가져옵니다.
+    # 참고로, 이미 notice는 bs4 객체이므로, select를 사용할 수 있습니다.
+    # 그러니 최초 한번만 위~~에서처럼 BeautifulSoup으로 감싸주면 됩니다.    
 
+    
+        numberl = elementsl[0].find(class_ = 'bbs_num').string # 번호 가져오기
+    
+        titlel = elementsl[2].text # 제목
+        titlel = title.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
 
+        linkl= elementsl[2].find('a')['href'] # 링크
+
+        datel = elementsl[5].text # 작성일
+        datel = datel.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
+
+        
+    print("번호: ", numberl)
+    print("제목: ", titlel)
+    print("링크: ", linkl)
+    print("작성일: ", datel)
+    print("\n\n")
 
