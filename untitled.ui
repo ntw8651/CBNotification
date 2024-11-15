@@ -21,17 +21,37 @@
     <item>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QListWidget" name="listWidget">
-        <item>
+       <widget class="QTableWidget" name="tableWidget">
+        <property name="gridStyle">
+         <enum>Qt::SolidLine</enum>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>false</bool>
+        </attribute>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderCascadingSectionResizes">
+         <bool>true</bool>
+        </attribute>
+        <column>
          <property name="text">
-          <string>첫번째 게시글</string>
+          <string>번호</string>
          </property>
-        </item>
-        <item>
+        </column>
+        <column>
          <property name="text">
-          <string>두번째 게시글</string>
+          <string>제목</string>
          </property>
-        </item>
+         <property name="textAlignment">
+          <set>AlignCenter</set>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>날짜</string>
+         </property>
+        </column>
        </widget>
       </item>
      </layout>
@@ -46,21 +66,14 @@
       </property>
       <property name="sizeHint" stdset="0">
        <size>
-        <width>100</width>
-        <height>19</height>
+        <width>20</width>
+        <height>17</height>
        </size>
       </property>
      </spacer>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QPushButton" name="pushButton_6">
-        <property name="text">
-         <string>PushButton</string>
-        </property>
-       </widget>
-      </item>
       <item>
        <widget class="QPushButton" name="pushButton_7">
         <property name="text">
