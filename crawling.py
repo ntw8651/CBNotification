@@ -103,11 +103,12 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
     print("\n\n")
 
 
+
 # 위를 통해서 아래 함수를 채워보세요.
 def GetNotices(link):
     
     responselink = requests.get(link)
-    htmllink = responselink.txt 
+    htmllink = responselink.text 
 
     noticeslink = BeautifulSoup(htmllink, 'html.parser').select('tbody tr:not(.p-notice)')
     # 요청을 보낼 곳은 link입니다.    
@@ -135,3 +136,4 @@ def GetNotices(link):
     print("작성일: ", datel)
     print("\n\n")
 
+GetNotices(url)
