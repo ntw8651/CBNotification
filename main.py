@@ -7,7 +7,10 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
 
-
+###################
+#Global Variables
+G_notions_dict = LoadData() #공지사항들 데이터 불러오기
+###################
 
 
 ################### 이곳에 pyqt 디자이너로 만든 ui 파일 경로를 적기
@@ -25,13 +28,8 @@ class WindowClass(QMainWindow, form_class) :
         super().__init__()
         self.setupUi(self)
 
-        for i in range(24) :
-            self.listWidget.addItem(str(i))
-
-
-
-
-
+        for i in G_notions_dict.keys():
+            self.listWidget.addItem(i)
 
 
 
