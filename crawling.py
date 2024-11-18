@@ -29,7 +29,7 @@ requests와 bs4 사용법 익혀보기
 
 # url에 주소를 문자열로 담습니다
 url = 'https://www.cbnu.ac.kr/www/selectBbsNttList.do?key=813&bbsNo=8&pageUnit=10&searchCnd=all&pageIndex=1'
-
+dictionary = {}
 
 # requests.get(url)을 통해서 요청을 보내고, 그 결과를 response에 담습니다
 response = requests.get(url)
@@ -109,9 +109,29 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
     print("작성일: ", date)
     print("\n\n")
     """
-    
+
+def getNoticeContent(id):
+    global dictionary
+    dictionary[id] = {}
+    link = 'https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=728AF3B7B39F2412B55CCFDBA52B97D3?key=813&bbsNo=8&nttNo=153575&pageUnit=10&searchCnd=all&pageIndex=1'
+    respon = requests.get(link)
+    html=respon.text
+    notice = BeautifulSoup(html, 'html.parser')
+    notices = notice.select('p')
+    arr=[]
+    for notie in notices:
+        content=notie.find_all('span') #find_all은 하나든 여러개든 모두 배열로 받음
+        for i in content:
+            arr.append(i.string)
+        dictionary[id]['content'] = arr
 
     
+
+        
+
+
+
+getNoticeContent(1) 
 
 
 
@@ -119,7 +139,7 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
 
 
 # 위를 통해서 아래 함수를 채워보세요.
-def GetNotices(link):
+"""def GetNotices(link):
     response=requests.get(link)
     html=response.text
     terminal=BeautifulSoup(html, 'html.parser')
@@ -143,4 +163,4 @@ def GetNotices(link):
 
 
 GetNotices(url)
-
+"""
