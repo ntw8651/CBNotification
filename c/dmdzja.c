@@ -1,14 +1,10 @@
-#include <stdio.h>
+#include<stdio.h>
 int main(){
-   int a;
-   scanf("%d", &a);
-   int b,c;
-   scanf("%d %d", &b, &c);
-   if(a>=b/c)
-   
-    printf("1");
-   
-   else 
-   printf("0");
-   return 0;
-} 
+    char dan[4];
+    scanf("%s", dan);
+    for(int i= 3;i<=0;i--){
+        printf("%c", dan[i]);
+    }
+    return 0;
+
+}

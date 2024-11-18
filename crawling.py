@@ -42,8 +42,13 @@ print(response.text[:120]) # 주석을 해제하세요
 ###################################
 
 
+'''
 
-
+https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=18DE7F79B7555297A85A9DD84840DE88?key=813&bbsNo=8&nttNo=153575&pageUnit=10&searchCnd=all&pageIndex=1
+'''
+dictionary = {
+                
+    }
 # 자 이제, html 코드를 파싱해보겠습니다.
 html = response.text
 
@@ -52,7 +57,8 @@ html = response.text
 # select는 CSS Selector를 이용해서 원하는 요소를 "배열로" 가져옵니다
 # 즉, select('tbody tr')은 모든 tbody 하위의 tr 요소를 가져옵니다.
 
-notices = BeautifulSoup(html, 'html.parser').select('tbody tr:not(.p-notice)')
+notices = BeautifulSoup(html, 'html.parser')
+notices = notices.select('tbody tr:not(.p-notice)')
 
 print(notices[0]) # 주석을 해제하세요
 
@@ -102,13 +108,9 @@ for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나
     print("작성일: ", date)
     print("\n\n")
 
-
-
 # 위를 통해서 아래 함수를 채워보세요.
 def GetNotices(link):
-    dictionary = {
-                
-    }
+    global dictionary
     responselink = requests.get(link)
     htmllink = responselink.text 
 
@@ -143,8 +145,38 @@ def GetNotices(link):
             "link":linkl,
             "date":datel
         }
+
     return dictionary
         
+#GetNotices(url)
 
-GetNotices(url)
+def getNoticeContent(id):
+    global dictionary
+    dictionary[id] = {}
+    dictionary[id]['link'] = 'https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=18DE7F79B7555297A85A9DD84840DE88?key=813&bbsNo=8&nttNo=153575&pageUnit=10&searchCnd=all&pageIndex=1'
+    linkcon = dictionary[id]['link']
+
+    # 1. 공지사항 목록 페이지 요청
+    response = requests.get(linkcon)
+    soup = BeautifulSoup(response.text, 'html.parser')
+    text =''
+    soup = soup.select('p')
+    for ssoup in soup:
+        for tag in ssoup.find_all(True):  # 모든 태그를 탐색
+            tag.attrs = {}  # 태그의 속성을 제거
+        
+        text += ' ' + str(ssoup.string)
+    print(text)  
+
+
+    dictionary[id]['content'] = text
+
+   
+
+
+
+
+getNoticeContent(1)
+
+
 
