@@ -119,13 +119,26 @@ def getNoticeContent(id):
     notice = BeautifulSoup(html, 'html.parser')
     notices = notice.select('p')
     arr=[]
+    '''
+    바뀐 점은 다음과 같습니다
+    - None 형태 제거 : 기존 코드에서는 배열의 몇몇 부분에 None Type의 원소가 존재했습니다. if문을 통해 None Type을 제거합니다.
+    - \xa0 제거 : 기존 코드에서는 \xa0가 존재했습니다. 이는 공백을 의미합니다. replace로 공백으로 바꿔줍니다.    
+    - ALL RIGHT RESERVED 제거 : 모든 게시글에서 등장하는 무의미한 `ALL RIGHT RESERVED.`를 제거합니다.
+    '''
     for notie in notices:
         content=notie.find_all('span') #find_all은 하나든 여러개든 모두 배열로 받음
+        
         for i in content:
-            arr.append(i.string)
-        dictionary[id]['content'] = arr
+            if(i.string == None): #None 타입 제거
+                #continue는 아래 코드를 실행하지 않고 다음으로 넘어간다
+                continue
+            arr.append(i.string.replace("\xa0", " "))
+        
+    if(arr != []): # 모든 게시글에서 등장하는 무의미한 ALL RIGHT RESERVED. 제거
+        del arr[-1]
+    dictionary[id]['content'] = arr #딕셔너리에 저장하는 때는 arr를 모두 완성시킨 후입니다.
 
-    
+    print(dictionary[id]['content'])
 
         
 
