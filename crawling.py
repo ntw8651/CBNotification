@@ -37,8 +37,7 @@ response = requests.get(url)
 
 # response의 text를 출력합니다. 이때, text는 HTML 코드입니다.
 #[:120]은 120글자까지만 출력하라는 의미입니다. 너무 길어서 120글자만 출력해보겠습니다.
-print(response.text[:120]) # 주석을 해제하세요
-
+# print(response.text[:120])
 ###################################
 
 
@@ -46,9 +45,7 @@ print(response.text[:120]) # 주석을 해제하세요
 
 https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=18DE7F79B7555297A85A9DD84840DE88?key=813&bbsNo=8&nttNo=153575&pageUnit=10&searchCnd=all&pageIndex=1
 '''
-dictionary = {
-                
-    }
+dictionary = {}
 # 자 이제, html 코드를 파싱해보겠습니다.
 html = response.text
 
@@ -60,7 +57,7 @@ html = response.text
 notices = BeautifulSoup(html, 'html.parser')
 notices = notices.select('tbody tr:not(.p-notice)')
 
-print(notices[0]) # 주석을 해제하세요
+# print(notices[0]) # 주석을 해제하세요
 
 # 뒤에 붙는 :not(.p-notice)는 .p-notice가 아닌 요소를 가져오라는 의미입니다.
 # 공지사항을 잘 보면, 고정 공지사항과 일반 공지사항이 있습니다.
@@ -85,32 +82,15 @@ print(notices[0]) # 주석을 해제하세요
 우선, 각 공지사항에 대해 하나씩 해야하니까, for문을 사용하겠습니다.
 '''
 
-for notice in notices: # 이 구문은 모든 notices에 담긴 원소를 하나씩 notice에 담습니다
-    elements = notice.select('td') # 각 notice의 td 요소를 가져옵니다.
-    # 참고로, 이미 notice는 bs4 객체이므로, select를 사용할 수 있습니다.
-    # 그러니 최초 한번만 위~~에서처럼 BeautifulSoup으로 감싸주면 됩니다.    
-
-    
-    number = elements[0].find(class_ = 'bbs_num').string # 번호 가져오기
-    
-    title = elements[2].text # 제목
-    title = title.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
-
-    link = elements[2].find('a')['href'] # 링크
-
-    date = elements[5].text # 작성일
-    date = date.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
-
-    
-    print("번호: ", number)
-    print("제목: ", title)
-    print("링크: ", link)
-    print("작성일: ", date)
-    print("\n\n")
+# 이미 함수로 구현했으므로 이곳에 있던 코드는 삭제합니다.
 
 # 위를 통해서 아래 함수를 채워보세요.
-def GetNotices(link):
-    global dictionary
+
+def GetNotices(link): #link page에 해당하는 게시글들을 긁어온다
+    dictionary = {}
+
+    print("GetNotices 함수 실행")
+
     responselink = requests.get(link)
     htmllink = responselink.text 
 
@@ -127,35 +107,46 @@ def GetNotices(link):
         numberl = elementsl[0].find(class_ = 'bbs_num').string # 번호 가져오기
     
         titlel = elementsl[2].text # 제목
-        titlel = title.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
+        titlel = titlel.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
 
         linkl= elementsl[2].find('a')['href'] # 링크
+        
+        #단! 이때 상대경로로 지정된 링크는 절대 경로로 바뀌어서 저장되어야 합니다~
+        linkl = 'https://www.cbnu.ac.kr/www' + linkl[1:] #여기서 [1:]은 맨 앞의 .을 제거하기 위함입니다.
 
         datel = elementsl[5].text # 작성일
         datel = datel.replace("\n", "").replace("\t", "").strip() #의미 없는 부분 제거
 
-        
+        '''
+        체크용 코드는 주석처리 했습니다.
+
         print("번호: ", numberl)
         print("제목: ", titlel)
         print("링크: ", linkl)
         print("작성일: ", datel)
         print("\n\n")
+        '''
+
+
+        
         dictionary[numberl] = {
             "title":titlel,
             "link":linkl,
             "date":datel
         }
-
+    
     return dictionary
         
 #GetNotices(url)
 
-def getNoticeContent(id):
-    global dictionary
-    dictionary[id] = {}
-    dictionary[id]['link'] = 'https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=18DE7F79B7555297A85A9DD84840DE88?key=813&bbsNo=8&nttNo=153575&pageUnit=10&searchCnd=all&pageIndex=1'
-    linkcon = dictionary[id]['link']
+def GetNoticeContent(link):
+    linkcon = link
 
+    '''
+    변경 사항은 다음과 같습니다.
+    - 줄바꿈 기호 추가
+    - None타입 무시
+    '''
     # 1. 공지사항 목록 페이지 요청
     response = requests.get(linkcon)
     soup = BeautifulSoup(response.text, 'html.parser')
@@ -164,19 +155,16 @@ def getNoticeContent(id):
     for ssoup in soup:
         for tag in ssoup.find_all(True):  # 모든 태그를 탐색
             tag.attrs = {}  # 태그의 속성을 제거
-        
-        text += ' ' + str(ssoup.string)
-    print(text)  
+        if(ssoup.string != None):
+            text += str(ssoup.string) + '\n'
 
-
-    dictionary[id]['content'] = text
-
-   
+    
+    return text
 
 
 
 
-getNoticeContent(1)
+#getNoticeContent(1)
 
 
 
