@@ -93,7 +93,7 @@ class CrawlerThread(QThread):
         global G_notions_dict
         for i in G_notions_dict.keys():
             if(G_notions_dict[i].get('content') == None):
-                G_notions_dict[i]['content'] = GetNoticeContent(G_notions_dict[i]['link'])
+                G_notions_dict[i]['content'] = GetNoticeContent(G_notions_dict[i]['link'], i)
                 SaveData(G_notions_dict)
                 self.view_update_signal.emit()
                 self.sleep(2)

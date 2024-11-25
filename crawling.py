@@ -1,7 +1,7 @@
 # 필요한 함수를 Import 합니다.
 import requests # 요청을 보내는 라이브러리입니다.
 from bs4 import BeautifulSoup # HTML을 파싱하는 라이브러리입니다.
-
+import os
 
 '''
 requests와 bs4 사용법 익혀보기
@@ -139,7 +139,7 @@ def GetNotices(link): #link page에 해당하는 게시글들을 긁어온다
         
 #GetNotices(url)
 
-def GetNoticeContent(link):
+def GetNoticeContent(link, id):
     linkcon = link
 
     '''
@@ -150,6 +150,19 @@ def GetNoticeContent(link):
     # 1. 공지사항 목록 페이지 요청
     response = requests.get(linkcon)
     soup = BeautifulSoup(response.text, 'html.parser')
+    
+    
+    file=soup.find_all(class_="attach_item")
+
+    for i in file:
+        file_name=i.find(class_="text").string
+        file_link='https://www.cbnu.ac.kr/www'+i.find('a')['href'][1:]
+        download(file_link,file_name,id)
+
+    
+    
+    
+    
     text =''
     soup = soup.select('p')
     for ssoup in soup:
@@ -163,8 +176,15 @@ def GetNoticeContent(link):
 
 
 
+def download(url,file_name, id):
+    os.makedirs(f"./files/{id}", exist_ok=True)
 
-#getNoticeContent(1)
+    with open(f"./files/{id}/{file_name}","wb") as file:
+        response=requests.get(url)
+        file.write(response.content)
 
+
+#GetNoticeContent("https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=562463FE704AB105CC95F0972188CB5C?key=813&bbsNo=8&nttNo=153740&pageUnit=10&searchCnd=all&pageIndex=1", 123)
+#download(url,"iml.jpg")
 
 
