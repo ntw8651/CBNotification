@@ -15,112 +15,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="0">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/Logo/CBNU.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-      </property>
-     </widget>
-    </item>
     <item row="1" column="0">
-     <spacer name="verticalSpacer">
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-      <property name="sizeType">
-       <enum>QSizePolicy::Minimum</enum>
-      </property>
-      <property name="sizeHint" stdset="0">
-       <size>
-        <width>20</width>
-        <height>60</height>
-       </size>
-      </property>
-     </spacer>
-    </item>
-    <item row="2" column="1">
-     <widget class="QGroupBox" name="timetableBox_2">
-      <property name="styleSheet">
-       <string notr="true">QGroupBox {
-    border: 1px solid #ccc; /* 전체 박스 테두리 */
-    border-radius: 5px;
-}
-
-QGroupBox::title {
-    background-color: #ab3b46; /* 제목 배경색 */
-    subcontrol-position: top center; /* 제목 위치 */
-    padding: 5px; /* 텍스트 여백 */
-    color: white; /* 글자 색상 */
-    font-weight: bold; /* 글자 굵기 */
-    border-radius: 0; /* 둥근 모서리 제거 */
-    min-width: 5000%; /* 배경을 그룹박스 너비로 확장 */
-}</string>
-      </property>
-      <property name="title">
-       <string>달력</string>
-      </property>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeType">
-          <enum>QSizePolicy::Fixed</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>15</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item>
-        <widget class="QCalendarWidget" name="calendarWidget">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="autoFillBackground">
-          <bool>true</bool>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">/* 헤더 영역 (월/연도 선택 버튼 포함) */
-QCalendarWidget QToolButton {
-    background-color: #e06287; /* 원하는 배경색 */
-    color: white;             /* 텍스트 색상 */
-    border: none;             /* 테두리 제거 */
-}
-
-/* 월/연도 선택 드롭다운 배경 */
-QCalendarWidget QMenu {
-    background-color: #e06287; /* 드롭다운 배경 */
-    color: white;              /* 텍스트 색상 */
-}
-
-/* 요일 헤더 (일, 월, 화...) */
-QCalendarWidget QWidget#qt_calendar_navigationbar {
-    background-color: #e06287; /* 요일 헤더 색상 */
-    color: white;
-}
-
-/* 날짜 셀 영역 */
-QCalendarWidget QAbstractItemView {
-    background-color: white; /* 날짜 배경 색상 */
-    selection-background-color: #F4CED4; /* 선택한 날짜 배경색 */
-    gridline-color: #FFAB91;   /* 셀 사이의 선 색상 */
-    color: black;              /* 텍스트 색상 */
-}</string>
-         </property>
-         <property name="verticalHeaderFormat">
-          <enum>QCalendarWidget::NoVerticalHeader</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </item>
-    <item row="2" column="0">
      <widget class="QGroupBox" name="noticeBox">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -177,22 +72,151 @@ QGroupBox::title {
         </spacer>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget">
+        <widget class="QTableWidget" name="Notices">
+         <property name="minimumSize">
+          <size>
+           <width>300</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
+         </property>
+         <property name="gridStyle">
+          <enum>Qt::SolidLine</enum>
+         </property>
+         <attribute name="horizontalHeaderCascadingSectionResizes">
+          <bool>false</bool>
+         </attribute>
+         <attribute name="horizontalHeaderMinimumSectionSize">
+          <number>30</number>
+         </attribute>
+         <attribute name="horizontalHeaderStretchLastSection">
+          <bool>true</bool>
+         </attribute>
+         <attribute name="verticalHeaderCascadingSectionResizes">
+          <bool>true</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>번호</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignCenter</set>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>제목</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignCenter</set>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>날짜</string>
+          </property>
+          <property name="textAlignment">
+           <set>AlignCenter</set>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <spacer name="verticalSpacer">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeType">
+       <enum>QSizePolicy::Minimum</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>60</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item row="1" column="1">
+     <widget class="QGroupBox" name="timetableBox_2">
+      <property name="styleSheet">
+       <string notr="true">QGroupBox {
+    border: 1px solid #ccc; /* 전체 박스 테두리 */
+    border-radius: 5px;
+}
+
+QGroupBox::title {
+    background-color: #ab3b46; /* 제목 배경색 */
+    subcontrol-position: top center; /* 제목 위치 */
+    padding: 5px; /* 텍스트 여백 */
+    color: white; /* 글자 색상 */
+    font-weight: bold; /* 글자 굵기 */
+    border-radius: 0; /* 둥근 모서리 제거 */
+    min-width: 5000%; /* 배경을 그룹박스 너비로 확장 */
+}</string>
+      </property>
+      <property name="title">
+       <string>달력</string>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeType">
+          <enum>QSizePolicy::Fixed</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>15</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCalendarWidget" name="calendarWidget">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="autoFillBackground">
+          <bool>true</bool>
+         </property>
          <property name="styleSheet">
-          <string notr="true">QListWidget {
-    border: 1px solid #ccc;
-    font-size: 14px;
+          <string notr="true">/* 헤더 영역 (월/연도 선택 버튼 포함) */
+QCalendarWidget QToolButton {
+    background-color: #e06287; /* 원하는 배경색 */
+    color: black;             /* 텍스트 색상*/
 }
-QListWidget::item {
-    padding: 8px;
-    margin: 2px;
-    border-bottom: 1px solid #ddd;
+
+/* 월/연도 선택 드롭다운 배경 */
+QCalendarWidget QMenu {
+    background-color: #e06287; /* 드롭다운 배경*/
+    color: black;              /*텍스트 색상*/
 }
-QListWidget::item:selected {
-    background-color: #ffc0cb;
-    color: white;
+
+/* 요일 헤더 (일, 월, 화...) */
+QCalendarWidget QWidget#qt_calendar_navigationbar {
+    background-color: #e06287; /* 요일 헤더 색상 */
+    color: black;
 }
-</string>
+
+/* 날짜 셀 영역 */
+QCalendarWidget QAbstractItemView {
+    background-color: white; /* 날짜 배경 색상 */
+    selection-background-color: #F4CED4; /* 선택한 날짜 배경색 */
+    gridline-color: #FFAB91;   /* 셀 사이의 선 색상 */
+    color: black;              /* 텍스트 색상 */
+}</string>
+         </property>
+         <property name="verticalHeaderFormat">
+          <enum>QCalendarWidget::NoVerticalHeader</enum>
          </property>
         </widget>
        </item>
@@ -213,8 +237,6 @@ QListWidget::item:selected {
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources>
-  <include location="image/CBNU_Logo.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
