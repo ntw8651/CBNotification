@@ -1,5 +1,5 @@
 <RCC>
-  <qresource prefix="Logo">
+  <qresource prefix="CBNU">
     <file>CBNU.png</file>
   </qresource>
 </RCC>

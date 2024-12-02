@@ -16,7 +16,7 @@ G_notions_dict = LoadData() #공지사항들 데이터 불러오기
 
 ################### 이곳에 pyqt 디자이너로 만든 ui 파일 경로를 적기
 #main.py와 같은 폴더에 넣고 파일명만 적으면 됨
-form_class = uic.loadUiType("untitled.ui")[0]
+form_class = uic.loadUiType("CBNU.ui")[0]
 ###################
 
 
