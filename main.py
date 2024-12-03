@@ -89,7 +89,7 @@ class CrawlerThread(QThread):
         
         #데이터 저장
         SaveData(G_notions_dict)
-        
+
 
     def UpdateContents(self):
         global G_notions_dict
