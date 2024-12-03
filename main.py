@@ -106,17 +106,48 @@ class WindowClass(QMainWindow, form_class) :
     def __init__(self) :
         super().__init__()
         self.setupUi(self) #여기까진 기본 셋업
-        
+
+        self.filter_date = ''
+
         # 게시글 목록 보여주기
+        self.filtered_dict = {}
+        self.filtered_dict = G_notions_dict
         self.ViewNoticeList()
         
         # 공지사항 클릭시 해당 공지사항의 내용을 보여주기위한 시그널 연결
         self.Notices.cellDoubleClicked.connect(self.ShowNoticeContent)
+        
+        #캘린더 위젯 날짜 더블 클릭시 해당 날짜의 공지사항을 보여주기
+        self.calendarWidget.activated.connect(self.OnClickCalendar)
+        
 
         # 크롤링 쓰레드 생성
         self.crawler_thread = CrawlerThread()
         self.crawler_thread.view_update_signal.connect(self.ViewNoticeList)
         self.crawler_thread.start()
+
+    def OnClickCalendar(self):
+        if(self.filter_date == self.calendarWidget.selectedDate().toString("yyyy-MM-dd")):
+            self.filter_date = ''
+        else:
+            self.filter_date = self.calendarWidget.selectedDate().toString("yyyy-MM-dd")
+        self.ViewNoticeList()
+
+    def FilterNoticeListByDate(self):
+        '''
+        만약 직전 클릭과 동일하다면
+
+        우선 View Notice List는 G_notions_dict가 아닌 다른 변수를 받아서 처리하도록 변경해야 함
+        그걸 걸러주는 걸 여기서 하자
+        우선 특정 셀이 더블클릭되면 해당 셀을 색을 특징적으로 잡자
+        '''
+        if(self.filter_date == ''):
+            self.filtered_dict = G_notions_dict
+        else:
+            self.filtered_dict = {}
+            for i in G_notions_dict.keys():
+                if(G_notions_dict[i]['date'] == self.filter_date):
+                    self.filtered_dict[i] = G_notions_dict[i]
 
     def ShowNoticeContent(self, row, column):
         notice_id = self.Notices.item(row, 0).text()
@@ -125,24 +156,22 @@ class WindowClass(QMainWindow, form_class) :
             popup.exec_()
         # 아직 콘텐츠가 로딩되지 않은 자료는 무시
 
-
     def ViewNoticeList(self):
-        # 추후 업데이트 된 부분만 추가하도록 변경
-
-        # self.Notices는 테이블 위젯
+        # 필터를 이용해서 볼 내용들만 filtered_dict에 저장
+        self.FilterNoticeListByDate()
 
         # 행의 개수를 공지사항의 개수로 설정
-        self.Notices.setRowCount(len(G_notions_dict.keys()))
+        self.Notices.setRowCount(len(self.filtered_dict.keys()))
         now = 0
 
         # 공지사항들을 테이블에 추가
-        for i in G_notions_dict.keys():
+        for i in self.filtered_dict.keys():
             self.Notices.setItem(now, 0, QTableWidgetItem(i))
-            self.Notices.setItem(now, 1, QTableWidgetItem(G_notions_dict[i]['title']))
-            self.Notices.setItem(now, 2, QTableWidgetItem(G_notions_dict[i]['date']))
+            self.Notices.setItem(now, 1, QTableWidgetItem(self.filtered_dict[i]['title']))
+            self.Notices.setItem(now, 2, QTableWidgetItem(self.filtered_dict[i]['date']))
             
             #현재 content가 없는 녀석은 회색으로 표시
-            if(G_notions_dict[i].get('content') == None):
+            if(self.filtered_dict[i].get('content') == None):
                 self.Notices.item(now, 0).setBackground(QColor(200, 200, 200))
                 self.Notices.item(now, 1).setBackground(QColor(200, 200, 200))
                 self.Notices.item(now, 2).setBackground(QColor(200, 200, 200))
