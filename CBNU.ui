@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>983</width>
-    <height>743</height>
+    <height>747</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -73,6 +73,12 @@ QGroupBox::title {
        </item>
        <item>
         <widget class="QTableWidget" name="Notices">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
            <width>300</width>
