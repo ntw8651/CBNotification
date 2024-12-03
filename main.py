@@ -66,10 +66,12 @@ class CrawlerThread(QThread):
             # 목록 업데이트 시그널 발생
             self.view_update_signal.emit()
 
-            self.sleep(2)
+            self.sleep(10)#테스트 시 많은 요청 방지
             self.UpdateContents()
             
             self.now_page+=1
+            if(self.now_page > 10):
+                break
 
     def UpdateNotions(self):
         global G_notions_dict
@@ -96,7 +98,7 @@ class CrawlerThread(QThread):
                 G_notions_dict[i]['content'] = GetNoticeContent(G_notions_dict[i]['link'], i)
                 SaveData(G_notions_dict)
                 self.view_update_signal.emit()
-                self.sleep(2)
+                self.sleep(10)# 테스트시 많은 요청을 방지
             else:
                 continue
         
@@ -152,7 +154,7 @@ class WindowClass(QMainWindow, form_class) :
     def ShowNoticeContent(self, row, column):
         notice_id = self.Notices.item(row, 0).text()
         if(G_notions_dict[notice_id].get('content') != None):    
-            popup = PopupNotice(G_notions_dict[notice_id])
+            popup = PopupNotice(G_notions_dict[notice_id] | {'id':notice_id})
             popup.exec_()
         # 아직 콘텐츠가 로딩되지 않은 자료는 무시
 
