@@ -163,14 +163,28 @@ def GetNoticeContent(link, id):
     
     
     
-    text =''
-    soup = soup.select('p')
-    for ssoup in soup:
-        for tag in ssoup.find_all(True):  # 모든 태그를 탐색
-            tag.attrs = {}  # 태그의 속성을 제거
-        if(ssoup.string != None):
-            text += str(ssoup.string) + '\n'
+    text =[]
+    tarr=[]
+    soup = soup.find(class_='contenttext')
+    child=list(soup.children)
 
+    for cchild in child:
+        if cchild.name=='table':
+            for tab in cchild.find_all('tr'):
+                rows=tab.find_all('td')
+                data=[]
+                for row in rows:
+                    data.append(str(row.text).replace('\xa0', ''))
+                tarr.append(data)
+            text.append(tarr)
+        else:
+            #for tag in cchild.find_all(True):  # 모든 태그를 탐색
+                #tag.attrs = {}  # 태그의 속성을 제거
+            if(cchild.string != None):
+                text.append(str(cchild.text).replace('\xa0', ''))
+
+    for i in text:
+        print(i)
     
     return text
 
@@ -184,7 +198,7 @@ def download(url,file_name, id):
         file.write(response.content)
 
 
-#GetNoticeContent("https://www.cbnu.ac.kr/www/selectBbsNttView.do;JSESSIONID=562463FE704AB105CC95F0972188CB5C?key=813&bbsNo=8&nttNo=153740&pageUnit=10&searchCnd=all&pageIndex=1", 123)
+GetNoticeContent("https://www.cbnu.ac.kr/www/selectBbsNttView.do?key=813&bbsNo=8&nttNo=153751&pageUnit=10&searchCnd=all&pageIndex=4", 123)
 #download(url,"iml.jpg")
 
 
