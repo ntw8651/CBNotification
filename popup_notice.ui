@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>419</width>
-    <height>521</height>
+    <width>667</width>
+    <height>650</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,6 +29,9 @@
          <width>16777215</width>
          <height>342</height>
         </size>
+       </property>
+       <property name="editTriggers">
+        <set>QAbstractItemView::NoEditTriggers</set>
        </property>
        <attribute name="horizontalHeaderCascadingSectionResizes">
         <bool>false</bool>

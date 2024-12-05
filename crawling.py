@@ -174,14 +174,14 @@ def GetNoticeContent(link, id):
                 rows=tab.find_all('td')
                 data=[]
                 for row in rows:
-                    data.append(str(row.text).replace('\xa0', ''))
+                    data.append(str(row.text).replace('\xa0', ' ').strip())
                 tarr.append(data)
             text.append(tarr)
         else:
             #for tag in cchild.find_all(True):  # 모든 태그를 탐색
                 #tag.attrs = {}  # 태그의 속성을 제거
             if(cchild.string != None):
-                text.append(str(cchild.text).replace('\xa0', ''))
+                text.append(str(cchild.text).replace('\xa0', ' ').strip())
 
     for i in text:
         print(i)
@@ -198,7 +198,7 @@ def download(url,file_name, id):
         file.write(response.content)
 
 
-GetNoticeContent("https://www.cbnu.ac.kr/www/selectBbsNttView.do?key=813&bbsNo=8&nttNo=153751&pageUnit=10&searchCnd=all&pageIndex=4", 123)
+#GetNoticeContent("https://www.cbnu.ac.kr/www/selectBbsNttView.do?key=813&bbsNo=8&nttNo=153751&pageUnit=10&searchCnd=all&pageIndex=4", 123)
 #download(url,"iml.jpg")
 
 

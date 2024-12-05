@@ -66,7 +66,7 @@ class CrawlerThread(QThread):
             # 목록 업데이트 시그널 발생
             self.view_update_signal.emit()
 
-            self.sleep(10)#테스트 시 많은 요청 방지
+            self.sleep(2)#테스트 시 많은 요청 방지
             self.UpdateContents()
             
             self.now_page+=1
@@ -98,7 +98,7 @@ class CrawlerThread(QThread):
                 G_notions_dict[i]['content'] = GetNoticeContent(G_notions_dict[i]['link'], i)
                 SaveData(G_notions_dict)
                 self.view_update_signal.emit()
-                self.sleep(10)# 테스트시 많은 요청을 방지
+                self.sleep(2)# 테스트시 많은 요청을 방지
             else:
                 continue
         
