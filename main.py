@@ -7,7 +7,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5 import uic
 from popup_notice import PopupNotice #팝업창 코드 가져오기
-
+import CBNU_Logo_rc #아이콘 리소스 코드 가져오기
 ###################
 #Global Variables
 G_notions_dict = LoadData() #공지사항들 데이터 불러오기
@@ -15,7 +15,7 @@ G_notions_dict = LoadData() #공지사항들 데이터 불러오기
 
 
 ################### 이곳에 pyqt 디자이너로 만든 ui 파일 경로를 적기
-#main.py와 같은 폴더에 넣고 파일명만 적으면 됨
+# main.py와 같은 폴더에 넣고 파일명만 적으면 됨
 form_class = uic.loadUiType("CBNU.ui")[0]
 ###################
 
